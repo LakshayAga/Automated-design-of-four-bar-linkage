@@ -14,7 +14,7 @@ While the multi-layer perceptron (MLP) successfully optimizes the inverse mappin
 - [ ] (Pending) Update `train.py` to persist weights via `torch.save()`.
 - [ ] (Pending) Scale up dataset generation loop to utilize larger `num_samples` securely without memory leaks.
 - [ ] (Pending) Create `evaluate.py` to parse an unseen validation dataset, run forward kinematics on the ML predictions, and plot the predicted vs. actual Trajectory paths side-by-side. 
-- [ ] (Pending) Create `image_parser.py` (via OpenCV/skimage) to take a monochrome image, extract the continuous coordinate trace boundary, and process it through `compute_fourier_descriptors()`.
+- [x] (Completed) Create `image_parser.py` (via OpenCV/skimage) to take a monochrome image, extract the continuous coordinate trace boundary, and process it through `compute_fourier_descriptors()`.
 - [ ] (Pending) Provide an end-to-end `main.py` script bridging the drawn input to linkage dimensions.
 
 ## Surprises & Discoveries
@@ -51,8 +51,8 @@ Currently, the model pipeline resides in `src/`. `data_generation.py` handles th
 2. Run training: `python src/train.py`.
 3. Create `src/evaluate.py` incorporating Matplotlib subplots for visualization.
 4. Run evaluation test: `python src/evaluate.py` (ensure MSE prints correctly and graphs populate).
-5. Install `opencv-python` to the `.venv`.
-6. Draft `src/image_parser.py` with contour-finding logic.
+5. ~~Install `opencv-python` to the `.venv`.~~ (Completed)
+6. ~~Draft `src/image_parser.py` with contour-finding logic.~~ (Completed)
 
 ## Validation and Acceptance
 
