@@ -1,5 +1,16 @@
-/Machine Learning Course Project Proposal.docx
-/progress_report.md
-/progress_report.pdf
-/Project Document.docx
-/proposal_citations.bib
+/docs/Machine Learning Course Project Proposal.docx
+/docs/progress_report.md
+/docs/progress_report.pdf
+/docs/Project Document.docx
+/docs/proposal_citations.bib
+/docs/Preliminary progress report - ML Project - Lakshay Agarwal v2.pdf
+/docs/Preliminary progress report - ML Project - Lakshay Agarwal.docx
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+docs/acm_1162264.bib
+docs/Machine Learning Course Project Proposal.pdf
+docs/Preliminary progress report - ML Project - Lakshay Agarwal.pdf
+exec_plan.md

@@ -44,7 +44,7 @@ def train_model(epochs=100, batch_size=32, dataset_size=2000):
             print(f"Epoch {epoch+1}/{epochs} | MSE Loss: {epoch_loss:.6f}")
             
     print("Training complete.")
-    # torch.save(model.state_dict(), "linkage_model.pth")
+    # torch.save(model.state_dict(), "models/validation_model.pth")
     return model
 
 if __name__ == "__main__":

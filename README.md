@@ -29,9 +29,37 @@ Since giving raw coordinates as input to the model would be inefficient, the pat
 ### 3.4 Neural Network Architecture
 The main architecture is a Multi-Layer Perceptron (MLP) built in PyTorch. It takes the 30 Fourier Descriptor variables as input. From there, it flows through three hidden layers, each having 128 nodes with ReLU activations. Ultimately, the network outputs 6 numerical node values which correspond to the relative parameters needed to construct the final predicted linkage.
 
-## 4. Current Architecture & Status
+## 4. Project Structure
 
-At this stage in the project, the foundational code is set up, and we've successfully validated both the data generation pipeline and the overall model training layout using a small preliminary dataset.
+```
+Project/
+├── src/                    # Core source code
+│   ├── data_generation.py  # Forward kinematics + dataset generation
+│   ├── model.py            # MLP architecture definition
+│   ├── train.py            # Training loop (generic)
+│   ├── image_parser.py     # OpenCV contour extraction → Fourier descriptors
+│   └── generate_and_save_validation.py  # Validation pipeline script
+├── data/                   # Stored datasets
+│   └── validation_dataset.pt   # 500-sample validation batch (FDs + trajectories)
+├── models/                 # Saved model checkpoints
+│   ├── validation_model.pth            # Trained validation model weights
+│   └── validation_training_meta.pt     # Training loss history & hyperparameters
+├── scripts/                # Utility & visualization scripts
+│   ├── view_data.py        # Inspect stored data, plot trajectories & loss curves
+│   ├── generate_plot.py    # Generate training curve plots for reports
+│   └── read_docx.py        # Utility for reading docx files
+├── tests/                  # Test suite
+│   └── test_image_parser.py
+├── assets/                 # Generated plots and images
+├── docs/                   # Reports, proposals, bibliography
+├── README.md
+├── exec_plan.md            # Execution plan (living document)
+└── requirements.txt
+```
+
+## 5. Current Architecture & Status
+
+At this stage in the project, the foundational code is set up, and we've successfully validated both the data generation pipeline and the overall model training layout using a small preliminary dataset. The validation model and dataset are persisted for reproducibility.
 
 ```mermaid
 flowchart TD
@@ -49,7 +77,7 @@ flowchart TD
     %% Model Pipeline
     subgraph phase2 ["Model Training Pipeline"]
         E --> F["MLP Setup (30 Input, 128 Hidden, 6 Output)"]:::done
-        F --> G["Initial Validation Training on Small Dataset"]:::done
+        F --> G["Validation Training on Small Dataset"]:::done
         G --> H["Mass Dataset Generation & Full Training"]:::pending
     end
 
@@ -64,8 +92,8 @@ flowchart TD
 ```
 *(Green = Validated & Completed Work, Red = Pending Future Tasks)*
 
-## 5. References
+## 6. References
 
-1. B. Röder, S. Hajipour, H. Ebel, P. Eberhard, and D. Bestle, “Automated design of a four-bar mechanism starting from hand drawings of desired coupler trajectories and velocity profiles,” *Mechanics Based Design of Structures and Machines*, 2025.
+1. B. Röder, S. Hajipour, H. Ebel, P. Eberhard, and D. Bestle, "Automated design of a four-bar mechanism starting from hand drawings of desired coupler trajectories and velocity profiles," *Mechanics Based Design of Structures and Machines*, 2025.
 2. C. M. Bishop, *Pattern Recognition and Machine Learning* (Information Science and Statistics). Berlin, Heidelberg: Springer-Verlag, 2006.
 3. L. Herrmann, M. Jokeit, O. Weeger, and S. Kollmannsberger, *Deep Learning in Computational Mechanics: An Introductory Course*. Cham, Switzerland: Springer Nature Switzerland AG, 2025.
