@@ -1,5 +1,5 @@
 """
-Generate and persist the initial validation dataset and trained model.
+Generate and persist the preliminary dataset and trained model.
 
 Purpose:
     This script is used for SELF-VALIDATION of the data generation pipeline
@@ -13,8 +13,8 @@ Purpose:
 Outputs:
     data/validation_dataset.pt       — Features (Fourier descriptors), targets (linkage params),
                                         AND raw (x, y) coupler-point trajectories for every sample.
-    models/validation_model.pth      — The trained model state dict
-    models/validation_training_meta.pt — Training metadata (loss history, hyperparams)
+    models/preliminary_model.pth      — The trained model state dict
+    models/preliminary_training_meta.pt — Training metadata (loss history, hyperparams)
 """
 
 import os
@@ -142,7 +142,7 @@ def main():
     # ── Step 2: Train initial model and save ─────────────────────────────
     print()
     print("=" * 60)
-    print("STEP 2: Training initial validation model")
+    print("STEP 2: Training preliminary model")
     print("=" * 60)
     print(f"  Epochs        : {NUM_EPOCHS}")
     print(f"  Batch size    : {BATCH_SIZE}")
@@ -178,12 +178,12 @@ def main():
     print(f"\n  Final loss: {loss_history[-1]:.6f}")
 
     # Save model weights
-    model_path = os.path.join(MODEL_DIR, "validation_model.pth")
+    model_path = os.path.join(MODEL_DIR, "preliminary_model.pth")
     torch.save(model.state_dict(), model_path)
     print(f"  Model saved to: {model_path}")
 
     # Save training metadata
-    meta_path = os.path.join(MODEL_DIR, "validation_training_meta.pt")
+    meta_path = os.path.join(MODEL_DIR, "preliminary_training_meta.pt")
     torch.save({
         'loss_history': loss_history,
         'final_loss': loss_history[-1],

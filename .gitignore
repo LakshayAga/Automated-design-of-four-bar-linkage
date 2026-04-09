@@ -14,3 +14,5 @@ docs/acm_1162264.bib
 docs/Machine Learning Course Project Proposal.pdf
 docs/Preliminary progress report - ML Project - Lakshay Agarwal.pdf
 exec_plan.md
+scripts/read_docx.py
+scripts/view_data.py

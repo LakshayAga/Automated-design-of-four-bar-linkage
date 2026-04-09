@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
 # Resolve paths relative to project root (one level up from this file)
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DATASET_PATH = os.path.join(PROJECT_ROOT, "data", "validation_dataset.pt")
-MODEL_PATH = os.path.join(PROJECT_ROOT, "models", "validation_model.pth")
-META_PATH = os.path.join(PROJECT_ROOT, "models", "validation_training_meta.pt")
+MODEL_PATH = os.path.join(PROJECT_ROOT, "models", "preliminary_model.pth")
+META_PATH = os.path.join(PROJECT_ROOT, "models", "preliminary_training_meta.pt")
 
 # ── 1. Load and inspect the dataset ─────────────────────────────────────────
 print("=" * 60)

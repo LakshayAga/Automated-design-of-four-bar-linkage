@@ -40,10 +40,10 @@ Project/
 │   ├── image_parser.py     # OpenCV contour extraction → Fourier descriptors
 │   └── generate_and_save_validation.py  # Validation pipeline script
 ├── data/                   # Stored datasets
-│   └── validation_dataset.pt   # 500-sample validation batch (FDs + trajectories)
+│   └── validation_dataset.pt   # 500-sample preliminary batch (FDs + trajectories)
 ├── models/                 # Saved model checkpoints
-│   ├── validation_model.pth            # Trained validation model weights
-│   └── validation_training_meta.pt     # Training loss history & hyperparameters
+│   ├── preliminary_model.pth           # Trained preliminary model weights
+│   └── preliminary_training_meta.pt    # Training loss history & hyperparameters
 ├── scripts/                # Utility & visualization scripts
 │   ├── view_data.py        # Inspect stored data, plot trajectories & loss curves
 │   ├── generate_plot.py    # Generate training curve plots for reports
@@ -59,7 +59,7 @@ Project/
 
 ## 5. Current Architecture & Status
 
-At this stage in the project, the foundational code is set up, and we've successfully validated both the data generation pipeline and the overall model training layout using a small preliminary dataset. The validation model and dataset are persisted for reproducibility.
+At this stage in the project, the foundational code is set up, and we've successfully validated both the data generation pipeline and the overall model training layout using a small preliminary dataset. The preliminary model and dataset are persisted for reproducibility.
 
 ```mermaid
 flowchart TD
@@ -77,7 +77,7 @@ flowchart TD
     %% Model Pipeline
     subgraph phase2 ["Model Training Pipeline"]
         E --> F["MLP Setup (30 Input, 128 Hidden, 6 Output)"]:::done
-        F --> G["Validation Training on Small Dataset"]:::done
+        F --> G["Preliminary Training on Small Dataset"]:::done
         G --> H["Mass Dataset Generation & Full Training"]:::pending
     end
 
