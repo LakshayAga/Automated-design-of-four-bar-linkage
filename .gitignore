@@ -1,18 +1,16 @@
-/docs/Machine Learning Course Project Proposal.docx
-/docs/progress_report.md
-/docs/progress_report.pdf
-/docs/Project Document.docx
-/docs/proposal_citations.bib
-/docs/Preliminary progress report - ML Project - Lakshay Agarwal v2.pdf
-/docs/Preliminary progress report - ML Project - Lakshay Agarwal.docx
-
 # Python
 .venv/
 __pycache__/
 *.pyc
-docs/acm_1162264.bib
-docs/Machine Learning Course Project Proposal.pdf
-docs/Preliminary progress report - ML Project - Lakshay Agarwal.pdf
 exec_plan.md
 scripts/read_docx.py
 scripts/view_data.py
+
+# Inference test runs (user-generated, not for repo)
+runs/
+inputs/
+assets/
+docs/
+data/
+models/
+src/__pycache__/

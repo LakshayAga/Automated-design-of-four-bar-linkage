@@ -23,6 +23,7 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
+from scipy.ndimage import uniform_filter1d
 
 # ── Path setup ──────────────────────────────────────────────────────────────
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -51,19 +52,63 @@ plt.rcParams.update({
 })
 
 
+# ── Smoothing helpers ────────────────────────────────────────────────────────
+_DISPLAY_RESAMPLE_N = 512         # arc-length resample target for DISPLAY only
+_DISPLAY_WINDOW     = 15          # light circular moving-average for display
+
+
+def _resample_arc(Px, Py, N=_DISPLAY_RESAMPLE_N):
+    """Resample a closed curve to N equally-spaced points along its arc length."""
+    cx = np.append(Px, Px[0])
+    cy = np.append(Py, Py[0])
+    ds  = np.sqrt(np.diff(cx)**2 + np.diff(cy)**2)
+    arc = np.concatenate([[0], np.cumsum(ds)])
+    t   = np.linspace(0, arc[-1], N, endpoint=False)
+    return np.interp(t, arc, cx), np.interp(t, arc, cy)
+
+
+def smooth_contour(Px, Py, window=_DISPLAY_WINDOW, resample_n=_DISPLAY_RESAMPLE_N):
+    """
+    Produce a smoothed version of the contour for DISPLAY purposes only.
+    NOT used for Fourier descriptor computation -- raw pixel coordinates are
+    used for that to preserve the FD parameterisation the model was trained on.
+
+    Steps:
+      1. Resample to `resample_n` arc-length-equidistant points
+         (removes pixel-density clustering near curves).
+      2. Apply a light circular moving-average to eliminate pen-overlap kinks
+         at the loop closure without distorting overall shape.
+    """
+    Px_rs, Py_rs = _resample_arc(Px, Py, resample_n)
+    if window > 1:
+        w = window
+        def cma(a):
+            ext = np.concatenate([a[-w:], a, a[:w]])
+            return uniform_filter1d(ext, size=w)[w:-w]
+        Px_rs, Py_rs = cma(Px_rs), cma(Py_rs)
+    return Px_rs, Py_rs
+
+
 # ── Core extraction ──────────────────────────────────────────────────────────
 def extract_contour(image_path: str):
     """
-    Returns (img_gray, thresh, Px, Py) where:
-      img_gray – original grayscale image (H×W uint8)
-      thresh   – binary thresholded image (H×W uint8, drawing = 255)
-      Px, Py   – float arrays of contour x/y in image pixel space
+    Returns (img_gray, thresh, Px, Py, contours) where:
+      img_gray  -- original grayscale image (H x W uint8)
+      thresh    -- binary thresholded image (H x W uint8, drawing = 255)
+      Px, Py    -- SMOOTHED contour for DISPLAY (arc-resampled 512 pts, w=15 MA)
+                   used in panel 3 and the reconstruction overlay plot
+      contours  -- raw OpenCV contours list
+
+    Px_raw / Py_raw (raw pixel contour) are what should be fed to
+    compute_fourier_descriptors() and predict_linkage() so the FD
+    parameterisation matches the training data exactly.
+    Call extract_contour_raw() if you need the raw arrays.
     """
     img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
     if img is None:
         raise ValueError(f"Could not read image: {image_path}")
 
-    # Invert: drawing (dark ink) → white (255), background → black (0)
+    # Invert: drawing (dark ink) -> white (255), background -> black (0)
     _, thresh = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV)
 
     contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
@@ -72,15 +117,40 @@ def extract_contour(image_path: str):
 
     largest = max(contours, key=len).squeeze(1)   # (N, 2)
     if len(largest) < 10:
-        raise ValueError("Contour too small – check image quality.")
+        raise ValueError("Contour too small -- check image quality.")
 
-    Px = largest[:, 0].astype(float)
-    Py = largest[:, 1].astype(float)
+    Px_raw = largest[:, 0].astype(float)
+    Py_raw = largest[:, 1].astype(float)
 
     # Flip Y so +Y points up (Cartesian convention)
-    Py = img.shape[0] - Py
+    Py_raw = img.shape[0] - Py_raw
 
-    return img, thresh, Px, Py, contours
+    # Smooth ONLY for display -- raw values are used for FD/model
+    Px_disp, Py_disp = smooth_contour(Px_raw, Py_raw)
+
+    return img, thresh, Px_disp, Py_disp, contours
+
+
+def extract_contour_raw(image_path: str):
+    """
+    Like extract_contour() but returns the RAW (un-smoothed) pixel coordinates.
+    These must be used when computing Fourier descriptors for the model,
+    since the model was trained on FDs from raw FK trajectories whose
+    parameterisation matches raw pixel traversal better than arc-length resampling.
+    """
+    img = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+    if img is None:
+        raise ValueError(f"Could not read image: {image_path}")
+
+    _, thresh = cv2.threshold(img, 127, 255, cv2.THRESH_BINARY_INV)
+    contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+    if not contours:
+        raise ValueError("No contours found.")
+
+    largest = max(contours, key=len).squeeze(1)
+    Px = largest[:, 0].astype(float)
+    Py = img.shape[0] - largest[:, 1].astype(float)
+    return Px, Py
 
 
 def build_figure(img, thresh, Px, Py, contours, fd_features, num_descriptors, image_path):
