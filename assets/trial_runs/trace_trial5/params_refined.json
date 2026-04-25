@@ -1,0 +1,16 @@
+{
+  "norm_a": 0.3603236999682658,
+  "norm_b": 0.9994483633632334,
+  "norm_c": 0.8011286005185985,
+  "norm_d": 0.558643462813297,
+  "norm_p": 0.33261228675162663,
+  "p_angle": 0.15126279097705647,
+  "refined": true,
+  "init_fd_dist": 1000000.0,
+  "refined_fd_dist": 0.07529831652624469,
+  "improvement_pct": 99.99999247016824,
+  "p_angle_deg": 8.666719520354885,
+  "params_valid": true,
+  "validity_note": "OK",
+  "stage": "refined"
+}

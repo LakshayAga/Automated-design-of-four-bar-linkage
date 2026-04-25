@@ -1,0 +1,31 @@
+Four-Bar Linkage Inference Summary
+========================================
+Image      : C:\Users\laksh\Desktop\IITD\ML\Project\inputs\trace_trial5.png
+Model      : C:\Users\laksh\Desktop\IITD\ML\Project\models\best_model.pth
+Run dir    : C:\Users\laksh\Desktop\IITD\ML\Project\runs\trace_trial5
+
+Model Prediction:
+  Valid    : False  (Grashof condition violated: S+L > P+Q (a=1.008, b=19.790, c=19.161, d=1.000))
+  norm_a   : 0.050888
+  norm_b   : 0.999008
+  norm_c   : 0.967276
+  norm_d   : 0.050481
+  norm_p   : 0.999876
+  p_angle  : -3.126563
+
+After Refinement:
+  Valid    : True  (OK)
+  FD dist  : 1000000.0000 -> 0.0753  (100.0% better)
+  norm_a   : 0.360324
+  norm_b   : 0.999448
+  norm_c   : 0.801129
+  norm_d   : 0.558643
+  norm_p   : 0.332612
+  p_angle  : 0.151263
+
+Output files:
+  params.json          model-only parameters
+  params_refined.json  parameters after Nelder-Mead optimisation
+  fd_diagnostic.png    image-parser diagnostic
+  reconstruction.png   model vs refined path comparison
+  summary.txt          this file

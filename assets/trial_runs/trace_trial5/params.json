@@ -1,0 +1,12 @@
+{
+  "norm_a": 0.050887998193502426,
+  "norm_b": 0.999008297920227,
+  "norm_c": 0.9672762155532837,
+  "norm_d": 0.05048079788684845,
+  "norm_p": 0.9998764395713806,
+  "p_angle": -3.126563310623169,
+  "p_angle_deg": -179.1388820791578,
+  "params_valid": false,
+  "validity_note": "Grashof condition violated: S+L > P+Q (a=1.008, b=19.790, c=19.161, d=1.000)",
+  "stage": "model_prediction"
+}
