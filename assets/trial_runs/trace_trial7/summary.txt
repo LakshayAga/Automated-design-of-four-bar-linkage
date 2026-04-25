@@ -1,0 +1,31 @@
+Four-Bar Linkage Inference Summary
+========================================
+Image      : C:\Users\laksh\Desktop\IITD\ML\Project\inputs\trace_trial7.jpeg
+Model      : C:\Users\laksh\Desktop\IITD\ML\Project\models\best_model.pth
+Run dir    : C:\Users\laksh\Desktop\IITD\ML\Project\runs\trace_trial7
+
+Model Prediction:
+  Valid    : True  (OK)
+  norm_a   : 0.170181
+  norm_b   : 0.989478
+  norm_c   : 0.961210
+  norm_d   : 0.112584
+  norm_p   : 0.989260
+  p_angle  : 2.543986
+
+After Refinement:
+  Valid    : True  (OK)
+  FD dist  : 1000000.0000 -> 0.1044  (100.0% better)
+  norm_a   : 0.652103
+  norm_b   : 0.662499
+  norm_c   : 0.992679
+  norm_d   : 0.982282
+  norm_p   : 0.319339
+  p_angle  : 2.263223
+
+Output files:
+  params.json          model-only parameters
+  params_refined.json  parameters after Nelder-Mead optimisation
+  fd_diagnostic.png    image-parser diagnostic
+  reconstruction.png   model vs refined path comparison
+  summary.txt          this file
